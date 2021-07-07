@@ -18,7 +18,7 @@
     <body>
 
 
-        <section class="bg-profile d-table w-100 bg-primary" style="background: url({% static 'images/account/bg.png' %}) center center;">
+        <section class="bg-profile d-table w-100 bg-primary" style="background: url({% static 'images/account/bg.png' %}) center center;" id="shalvar_installer">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -115,30 +115,25 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div><!--end row-->
+                                                                </div>
                                                                 <div class="row">
                                                                     <div class="col-sm-12">
                                                                         <input type="submit" id="submit" name="send" class="btn btn-primary" value="نصب شلوار ">
-                                                                    </div><!--end col-->
-                                                                </div><!--end row-->
-                                                            </form><!--end form-->
+                                                                    </div>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
                                         </div>
                                     </div>
-                                </div><!--end col-->
-
-
-                            </div><!--end row-->
+                                </div>
+                            </div>
                         </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </section><!--end section-->
-        <!-- Profile End -->
-
-
+                    </div>
+                </div>
+            </div>
+        </section>
         <footer class="footer footer-bar">
             <div class="container text-center">
                 <div class="row align-items-center">
@@ -146,24 +141,30 @@
                         <div class="text-sm-start">
                             <p class="mb-0">© <script>document.write(new Date().getFullYear())</script> شلوار. طراحی شده با  <i class="mdi mdi-heart text-danger"></i> توسط  <a href="#" target="_blank" class="text-reset">مبین فیضیان </a>.</p>
                         </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </footer><!--end footer-->
-        <!-- Footer End -->
-
-
-        <!-- end Style switcher -->
-
-        <!-- javascript -->
-        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-        <!-- Icons -->
-        <script src="{% static 'js/feather.min.js' %}"></script>
-        <!-- Switcher -->
-        <script src="{% static 'js/switcher.js' %}"></script>
-        <!-- Main Js -->
-        <script src="{% static 'js/plugins.init.js' %}"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
-        <script src="{% static 'js/app.js' %}"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+                    </div>
+                </div>
+            </div>
+        </footer>
     </body>
 
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/feather.min.js' %}"></script>
+    <script src="{% static 'js/switcher.js' %}"></script>
+    <script src="{% static 'js/plugins.init.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'jquery.min.js' %}"></script>
+    <script src="{% static 'vue.min.js' %}"></script>
+    <script>
+        let shalvar = new Vue({
+            el: "#shalvar_installer",
+            data: {
+                website_name: null,
+                panel_path: null,
+                website_title: null,
+            },
+            methods: {
+
+            }
+        })
+    </script>
 </html>
