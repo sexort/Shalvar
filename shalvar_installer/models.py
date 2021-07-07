@@ -4,6 +4,7 @@ from django.db import models
 class ShalvarInstallerModel(models.Model):
     install_date = models.DateTimeField(auto_now=True)
     website_name = models.CharField(max_length=300)
+    website_subject = models.CharField(max_length=300)
     website_description = models.TextField()
     admin_username = models.CharField(max_length=100)
     admin_password = models.CharField(max_length=300)
