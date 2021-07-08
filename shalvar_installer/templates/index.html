@@ -13,6 +13,7 @@
         <!-- Main Css -->
         <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css" id="theme-opt" />
         <link href="{% static 'css/colors/default.css' %}" rel="stylesheet" id="color-opt">
+        <meta name="csrftoken" content="{{ csrf_token }}"/>
 
     </head>
 
@@ -223,6 +224,9 @@
                     form.append('website_domain', this.website_domain);
                     form.append('admin_email', this.admin_email);
 
+                    let csrftoken = document.querySelector('meta[name="csrftoken"]').content
+                    console.log(csrftoken);
+
                     $.ajax({
                         url: "/install/api/",
                         type: "POST",
@@ -230,6 +234,9 @@
                         processData: false,
                         contentType: false,
                         cache: false,
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        },
 
                         success: data => {
 
