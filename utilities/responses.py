@@ -12,7 +12,7 @@ class BaseResponse:
 
 
 class BadRequestResponse(BaseResponse):
-    def __init(self, result, status=False, current_datetime=datetime.now(), code=st.HTTP_400_BAD_REQUEST):
+    def __init(self, result=None, status=False, current_datetime=datetime.now(), code=st.HTTP_400_BAD_REQUEST):
         self.result = result
         self.status = status
         self.current_datetime = current_datetime
