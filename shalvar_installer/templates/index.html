@@ -57,7 +57,72 @@
                                             <div class="alert alert-success" role="alert">از شما ممنونیم که شلوار را انتخاب کردید</div>
                                                 <div class="col mt-4 pt-2" id="forms">
                                                     <div class="component-wrapper rounded shadow">
-                                                        <div class="p-4">
+                                                        <div class="p-4" v-if="first_step">
+                                                            <form>
+                                                                <div class="row">
+
+                                                                    <div class="col-md-12">
+                                                                        <div class="mb-3">
+                                                                            <div class="col mt-4 pt-2" id="select-box">
+                                                                                <div class="component-wrapper rounded shadow">
+                                                                                    <div class="mb-0">
+                                                                                        <select class="form-select form-control" aria-label="Default select example" v-model="database_type">
+                                                                                            <option selected value="default">انتخاب دیتابیس</option>
+                                                                                            <option value="mysql">msyql ( مای اس کیوال )</option>
+                                                                                            <option value="postgresql">postgresql ( پستگرس ) </option>
+                                                                                            <option value="sqlite">sqlite ( اس کیو لایت )</option>
+                                                                                            <option value="mongodb">mongodb ( مونگو )</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="mb-3">
+                                                                            <div class="form-icon position-relative">
+                                                                                <i data-feather="clipboard" class="fea icon-sm icons"></i>
+                                                                                <input name="database_username" type="text" class="form-control ps-5" placeholder="یوزرنیم دیتابیس" v-model="database_username">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="mb-3">
+                                                                            <div class="form-icon position-relative">
+                                                                                <i data-feather="lock" class="fea icon-sm icons"></i>
+                                                                                <input name="database_password" type="password" class="form-control ps-5" placeholder="کلمه‌ی عبور دیتابیس" v-model="database_username">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="mb-3">
+                                                                            <div class="form-icon position-relative">
+                                                                                <i data-feather="database" class="fea icon-sm icons"></i>
+                                                                                <input name="database_name" type="text" class="form-control ps-5" placeholder="نام دیتابیس" v-model="database_name">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="mb-3">
+                                                                            <div class="form-icon position-relative">
+                                                                                <i data-feather="code" class="fea icon-sm icons"></i>
+                                                                                <input name="database_port" type="number" class="form-control ps-5" placeholder="پورت دیتابیس" v-model="database_port">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </form>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <button data-bs-toggle="modal" data-bs-target="#install" class="btn btn-primary" @click="install_shalvar_first_step">نصب شلوار</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="p-4" v-else>
                                                             <form>
                                                                 <div class="row">
                                                                     <div class="col-md-6">
@@ -210,10 +275,16 @@
                 website_domain: null,
                 admin_email: null,
                 is_ok: true,
+                database_name: null,
+                database_username: null,
+                database_type: 'default',
+                database_password: null,
+                database_port: null,
                 errors: [],
+                first_step: true,
             },
             methods: {
-                install_shalvar: function() {
+                install_shalvar_first_step: function() {
                     let form = new FormData();
                     form.append('website_name', this.website_name);
                     form.append('admin_path', this.admin_path);
