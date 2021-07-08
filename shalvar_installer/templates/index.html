@@ -63,7 +63,7 @@
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="globe" class="fea icon-sm icons"></i>
-                                                                                <input name="name" id="name" type="text" class="form-control ps-5" placeholder="نام وبسایت :">
+                                                                                <input name="name" id="name" type="text" class="form-control ps-5" placeholder="نام وبسایت :" v-model="website_name">
                                                                             </div>
                                                                         </div>
                                                                     </div><!--end col-->
@@ -71,7 +71,7 @@
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="key" class="fea icon-sm icons"></i>
-                                                                                <input name="email" id="email" type="email" class="form-control ps-5" placeholder="آدرس پنل مدیریت :">
+                                                                                <input name="email" id="email" type="email" class="form-control ps-5" placeholder="آدرس پنل مدیریت :" v-model="admin_path">
                                                                             </div>
                                                                         </div>
                                                                     </div><!--end col-->
@@ -79,7 +79,7 @@
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="book" class="fea icon-sm icons"></i>
-                                                                                <input name="subject" id="subject" class="form-control ps-5" placeholder="موضوع وبسایت : ">
+                                                                                <input name="subject" id="subject" class="form-control ps-5" placeholder="موضوع وبسایت : " v-mode="website_subject">
                                                                             </div>
                                                                         </div>
                                                                     </div><!--end col-->
@@ -87,7 +87,7 @@
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="user" class="fea icon-sm icons"></i>
-                                                                                <input name="email" id="email" type="email" class="form-control ps-5" placeholder="نام کاربری مدیر :">
+                                                                                <input name="email" id="email" type="email" class="form-control ps-5" placeholder="نام کاربری مدیر :" v-model="admin_username">
                                                                             </div>
                                                                         </div>
                                                                     </div><!--end col-->
@@ -95,7 +95,7 @@
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="lock" class="fea icon-sm icons"></i>
-                                                                                <input name="email" id="email" type="email" class="form-control ps-5" placeholder="کلمه عبور مدیر :">
+                                                                                <input name="email" id="email" type="email" class="form-control ps-5" placeholder="کلمه عبور مدیر :" v-model="admin_password">
                                                                             </div>
                                                                         </div>
                                                                     </div><!--end col-->
@@ -103,7 +103,7 @@
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="at-sign" class="fea icon-sm icons"></i>
-                                                                                <input name="subject" id="subject" class="form-control ps-5" placeholder="ایمیل مدیر : ">
+                                                                                <input name="subject" id="subject" class="form-control ps-5" placeholder="ایمیل مدیر : " v-model="admin_email">
                                                                             </div>
                                                                         </div>
                                                                     </div><!--end col-->
@@ -111,7 +111,7 @@
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="globe" class="fea icon-sm icons"></i>
-                                                                                <input name="subject" id="subject" class="form-control ps-5" placeholder="دامنه : ">
+                                                                                <input name="subject" id="subject" class="form-control ps-5" placeholder="دامنه : " v-model="website_domain">
                                                                             </div>
                                                                         </div>
                                                                     </div><!--end col-->
@@ -120,7 +120,7 @@
                                                                             <label class="form-label"></label>
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="message-circle" class="fea icon-sm icons"></i>
-                                                                                <textarea name="comments" id="comments" rows="4" class="form-control ps-5" placeholder="درباره وبسایت :"></textarea>
+                                                                                <textarea name="comments" id="comments" rows="4" class="form-control ps-5" placeholder="درباره وبسایت :" v-model="website_description"></textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -233,6 +233,13 @@
 
                         success: data => {
 
+                        },
+                        error: error => {
+                            let errors = error.responseJSON.result.errors;
+                            for (const [key, value] of Object.entries(errors)) {
+                                this.errors.push(value[0]);
+                            }
+                            console.log(this.errors);
                         }
                     })
                 }
