@@ -129,7 +129,7 @@
                                                             </form>
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <button data-bs-toggle="modal" data-bs-target="#install" class="btn btn-primary">نصب شلوار</button>
+                                                                    <button data-bs-toggle="modal" data-bs-target="#install" class="btn btn-primary" @click="install_shalvar">نصب شلوار</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -213,9 +213,20 @@
             },
             methods: {
                 install_shalvar: function() {
+                    let form = new FormData();
+                    form.append('website_name', this.website_name);
+                    form.append('admin_path', this.admin_path);
+                    form.append('website_subject', this.website_subject);
+                    form.append('admin_username', this.admin_username);
+                    form.append('admin_password', this.admin_password);
+                    form.append('website_description', this.website_description);
+                    form.append('website_domain', this.website_domain);
+                    form.append('admin_email', this.admin_email);
+
                     $.ajax({
                         url: "/install/api/",
                         type: "POST",
+                        data: form
                         processData: false,
                         contentType: false,
                         cache: false,
