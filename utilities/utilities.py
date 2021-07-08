@@ -15,3 +15,23 @@ def mongo_installed(database_name: str, database_username: str, database_passwor
         return False
 
     return True
+
+
+def mysql_installed():
+
+    try:
+        import mysqliclent
+    except ImportError:
+        return False
+
+    return True
+
+
+def postgresql_installed():
+
+    try:
+        import psycopg2
+    except ImportError:
+        return False
+
+    return True
