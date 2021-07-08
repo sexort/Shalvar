@@ -44,7 +44,7 @@
         <!-- Hero End -->
 
         <!-- Profile Start -->
-        <section class="section mt-60">
+        <section class="section mt-60" id="shalvar">
             <div class="container mt-lg-3">
                 <div class="row">
                     <div class="col-lg-12 col-12">
@@ -125,12 +125,45 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <input type="submit" id="submit" name="send" class="btn btn-primary" value="نصب شلوار ">
+
+                                                            </form>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <button data-bs-toggle="modal" data-bs-target="#install" class="btn btn-primary">نصب شلوار</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal fade" id="install" tabindex="-1" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content rounded shadow border-0">
+                                                                    <div class="modal-body py-5">
+                                                                        <div class="text-center" v-if="is_ok">
+                                                                            <div class="icon d-flex align-items-center justify-content-center bg-soft-success rounded-circle mx-auto" style="height: 95px; width:95px;">
+                                                                                <h1 class="mb-0"><i class="uil uil-shield-check align-middle"></i></h1>
+                                                                            </div>
+                                                                            <div class="mt-4">
+                                                                                <h4>شلوار با موفقیت نصب شد</h4>
+                                                                                <p class="text-muted">امیدواریم استفاده ی بهینه و کامل رو از این سیستم ببری همچنین اگه به باگ یا مشکلی خوردید خوشحال میشیم مارو در اختیار بزاری :)</p>
+                                                                                <div class="mt-4">
+                                                                                    <a href="javascript:void(0)" class="btn btn-outline-primary">ورود به پنل مدیریت</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="text-center" v-else>
+                                                                            <div class="icon d-flex align-items-center justify-content-center bg-soft-success rounded-circle mx-auto" style="height: 95px; width:95px;">
+                                                                                <h1 class="mb-0"><i class="uil uil-shield-check align-middle"></i></h1>
+                                                                            </div>
+                                                                            <div class="mt-4">
+                                                                                <h4>لیست خواسته های شما خالی است.</h4>
+                                                                                <p class="text-muted">اولین درخواست لیست خواسته های خود را ایجاد کنید...</p>
+                                                                                <div class="mt-4">
+                                                                                    <a href="javascript:void(0)" class="btn btn-outline-primary">+ لیست خواسته های جدید ایجاد کنید</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -165,17 +198,33 @@
     <script src="{% static 'vue.min.js' %}"></script>
     <script>
         let shalvar = new Vue({
-            el: "#shalvar_installer",
+            el: "#shalvar",
             data: {
                 website_name: null,
-                panel_path: null,
+                admin_path: null,
                 website_subject: null,
                 admin_username: null,
                 admin_password: null,
                 website_description: null,
+                website_domain: null,
+                admin_email: null,
+                is_ok: true,
+                errors: [],
             },
             methods: {
+                install_shalvar: function() {
+                    $.ajax({
+                        url: "/install/api/",
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        cache: false,
 
+                        success: data => {
+
+                        }
+                    })
+                }
             }
         })
     </script>
