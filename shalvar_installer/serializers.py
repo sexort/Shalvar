@@ -5,7 +5,7 @@ from rest_framework import exceptions
 from validate_email import validate_email
 
 
-class ShalvarInstallerSerializer(Serializer):
+class ShalvarInstallerFirstStepSerializer(Serializer):
     website_name = serializers.CharField(min_length=1, max_length=100)
     admin_path = serializers.CharField(min_length=1, max_length=50)
     website_subject = serializers.CharField(max_length=200)
