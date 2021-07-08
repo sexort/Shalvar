@@ -6,7 +6,7 @@ class ShalvarInstallerModel(models.Model):
     website_name = models.CharField(max_length=300)
     website_subject = models.CharField(max_length=300)
     website_description = models.TextField()
-    website_domain = models.URLField(max_length=100)
+    website_domain = models.CharField(max_length=100)
     admin_username = models.CharField(max_length=100)
     admin_password = models.CharField(max_length=300)
     admin_email = models.EmailField()
