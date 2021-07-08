@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from shalver_installer.models import ShalvarInstallerModel
+from shalvar_installer.models import ShalvarInstallerModel
 
 
 class UserProfile(models.Model):
