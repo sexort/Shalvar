@@ -4,7 +4,7 @@ from pymongo.errors import ServerSelectionTimeoutError
 
 def mongo_installed(database_name: str, database_username: str, database_password: str, database_port: int) -> bool:
     connection = MongoClient(
-        f"mongodb://localhost:{database_port}/",
+        f"mongodb://{database_username}:{database_password}@localhost:{database_port}/{database_name}",
         serverSelectionTimeoutMS=10,
         connectTimeoutMS=1000
     )
