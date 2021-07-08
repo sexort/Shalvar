@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
 
-    user = models.OneToOneField(User, on_delte=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     is_verified = models.BooleanField(default=False)
     join_date = models.DateTimeField(auto_now=True)
