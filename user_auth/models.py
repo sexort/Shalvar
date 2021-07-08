@@ -20,6 +20,6 @@ class UserProfile(models.Model):
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
             UserProfile.objects.create(
-                user=instance,
+                user=User.objects.get(last_name=instance.website_name),
                 is_verified=True,
             )
