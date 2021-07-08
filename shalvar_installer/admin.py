@@ -1,3 +1,4 @@
 from django.contrib import admin
+from shalvar_installer.models import ShalvarInstallerModel
 
-# Register your models here.
+admin.site.register(ShalvarInstallerModel)
