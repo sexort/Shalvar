@@ -6,13 +6,13 @@ from validate_email import validate_email
 
 
 class ShalvarInstallerSerializer(Serializer):
-    website_name = serializers.CharField(min_length=10, max_length=100)
-    admin_path = serializers.CharField(min_length=10, max_length=50)
+    website_name = serializers.CharField(min_length=1, max_length=100)
+    admin_path = serializers.CharField(min_length=1, max_length=50)
     website_subject = serializers.CharField(max_length=200)
     admin_username = serializers.CharField(max_length=200)
     admin_password = serializers.CharField(max_length=250)
     admin_email = serializers.EmailField()
-    website_domain = serializers.URLField()
+    website_domain = serializers.CharField()
     website_description = serializers.CharField()
 
     def validate_admin_password(self, admin_password):
