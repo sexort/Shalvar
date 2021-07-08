@@ -16,7 +16,7 @@ class ShalvarInstallerSerializer(Serializer):
     website_description = serializers.CharField()
 
     def validate_admin_password(self, admin_password):
-        if password is None or password == "":
+        if admin_password is None or admin_password == "":
             raise exceptions.ValidationError(_(
                 "کلمه‌ی عبور نمیتواند خالی باشد"
             ))
