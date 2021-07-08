@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'shalvar_installer',
+    'user_auth',
 ]
 
 MIDDLEWARE = [
