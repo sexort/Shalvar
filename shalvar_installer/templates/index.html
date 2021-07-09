@@ -91,7 +91,7 @@
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="lock" class="fea icon-sm icons"></i>
-                                                                                <input name="database_password" type="password" class="form-control ps-5" placeholder="کلمه‌ی عبور دیتابیس" v-model="database_username">
+                                                                                <input name="database_password" type="password" class="form-control ps-5" placeholder="کلمه‌ی عبور دیتابیس" v-model="database_password">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -107,7 +107,7 @@
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="code" class="fea icon-sm icons"></i>
-                                                                                <input name="database_port" type="number" class="form-control ps-5" placeholder="پورت دیتابیس" v-model="database_port">
+                                                                                <input name="database_port" type="number" class="form-control ps-5" placeholder="پورت دیتابیس ( در صورت نداستن خالی بگذارید )" v-model="database_port">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -116,8 +116,15 @@
 
                                                             </form>
                                                             <div class="row">
+
                                                                 <div class="col-sm-12">
-                                                                    <button data-bs-toggle="modal" data-bs-target="#install" class="btn btn-primary" @click="install_shalvar_first_step">مرحله بعدی</button>
+                                                                     <button class="alert alert-primary alert-pills" role="alert" @click="install_shalvar_first_step">
+                                                                     {% verbatim %}
+                                                                       <span class="badge rounded-pill bg-danger" v-if="first_errors">{{ first_errors[0] }}</span>
+                                                                     {% endverbatim %}
+                                                                         <span class="alert-content" v-if="first_errors.length > 0">تلاش دوباره</span>
+                                                                         <span class="alert-content" v-else>مرحله بعدی</span>
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -196,7 +203,7 @@
                                                             </form>
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <button data-bs-toggle="modal" data-bs-target="#install" class="btn btn-primary" @click="install_shalvar">نصب شلوار</button>
+                                                                    <button data-bs-toggle="modal" data-bs-target="#install" class="btn btn-primary" @click="install_shalvar_second_step">نصب شلوار</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -281,12 +288,52 @@
                 database_type: 'default',
                 database_password: null,
                 database_port: null,
+                first_errors: [],
+                can_go_next: true,
                 errors: [],
                 first_step: true,
                 is_sqlite_selected: false,
             },
             methods: {
                 install_shalvar_first_step: function() {
+                    let form = new FormData();
+                    form.append('database_type', this.database_type);
+                    form.append('database_name', this.database_name);
+                    form.append('database_username', this.database_username);
+                    if (this.database_port === null || this.database_port === '') {
+                        form.append('database_port', 0);
+                    } else {
+                        form.append('database_port', this.database_port);
+                    }
+                    form.append('database_password', this.database_password);
+
+                    $.ajax({
+                        url: "/install/api/first-step/",
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+                        data: form,
+                        cache: false,
+                        headers: {
+                            'X-CSRFToken': document.querySelector('meta[name="csrftoken"]').content
+                        },
+
+                        success: data => {
+                            this.first_step = false;
+                        },
+
+                        error: error => {
+                            code = error.responseJSON.code;
+                            if (code === 400) {
+                                this.first_errors.push(
+                                    'خطا در وصل شدن به دیتابیس.'
+                                );
+                            }
+                        }
+                    })
+
+                },
+                install_shalvar_second_step: function() {
                     let form = new FormData();
                     form.append('website_name', this.website_name);
                     form.append('admin_path', this.admin_path);
@@ -298,7 +345,6 @@
                     form.append('admin_email', this.admin_email);
 
                     let csrftoken = document.querySelector('meta[name="csrftoken"]').content
-                    console.log(csrftoken);
 
                     $.ajax({
                         url: "/install/api/second-step/",
@@ -356,11 +402,14 @@
 
                 check_sqlite: function() {
                     setInterval(() => {
-                        if (document.getElementById('sqlite').selected) {
-                            this.is_sqlite_selected = true;
-                        } else {
-                            this.is_sqlite_selected = false;
+                        if (document.getElementById('sqlite') !== null) {
+                            if (document.getElementById('sqlite').selected) {
+                                this.is_sqlite_selected = true;
+                            } else {
+                                this.is_sqlite_selected = false;
+                            }
                         }
+
                     })
                 },
 
