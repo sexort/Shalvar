@@ -123,7 +123,8 @@
                                                                        <span class="badge rounded-pill bg-danger" v-if="first_errors">{{ first_errors[0] }}</span>
                                                                      {% endverbatim %}
                                                                          <span class="alert-content" v-if="first_errors.length > 0">تلاش دوباره</span>
-                                                                         <span class="alert-content" v-else>مرحله بعدی</span>
+                                                                         <span class="alert-content" v-if="first_errors.length <= 0">مرحله بعدی</span>
+                                                                         <span class="alert-content" v-if="this.loading_db">در حال بررسی کانکشن دیتابیس</span>
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -293,6 +294,7 @@
                 errors: [],
                 first_step: true,
                 is_sqlite_selected: false,
+                loading_db: false,
             },
             methods: {
                 install_shalvar_first_step: function() {
@@ -306,6 +308,7 @@
                         form.append('database_port', this.database_port);
                     }
                     form.append('database_password', this.database_password);
+                    this.loading_db = true;
 
                     $.ajax({
                         url: "/install/api/first-step/",
@@ -328,6 +331,7 @@
                                 this.first_errors.push(
                                     'خطا در وصل شدن به دیتابیس.'
                                 );
+                                this.loading_db = false;
                             }
                         }
                     })

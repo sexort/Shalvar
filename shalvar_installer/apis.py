@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from utilities import responses, utilities
+from os import system
 
 
 class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
@@ -30,6 +31,9 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                 make_database_config.write("database_type = 'sqlite'")
                 make_database_config.close()
 
+            system("python manage.py makemigrations ; python manage.py migrate")
+            return resposnes.SuccessResponse().send_request()
+
         elif database_type == "mysql":
             if not utilities.mysql_connection(
                 database_name=database_name,
@@ -52,6 +56,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                     )
                 make_database_config.close()
 
+            system("python manage.py makemigrations ; python manage.py migrate")
             return responses.SuccessResponse.send_response()
 
         elif database_type == 'postgresql':
@@ -77,6 +82,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                     )
                 make_database_config.close()
 
+            system("python manage.py makemigrations ; python manage.py migrate")
             return responses.SuccessResponse().send_response()
 
         elif database_type == 'mongo':
@@ -102,7 +108,9 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                     )
                 make_database_config.close()
 
+            system("python manage.py makemigrations ; python manage.py migrate")
             return responses.SuccessResponse.send_response()
+
 
 
 class ShalvarInstallerSecondStepAPI(generics.CreateAPIView):

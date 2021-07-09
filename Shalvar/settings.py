@@ -57,41 +57,50 @@ WSGI_APPLICATION = 'Shalvar.wsgi.application'
 try:
     import database
     if database.database_type == "mysql":
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.mysql',
-                'NAME': database.database_name,
-                'USER': database.database_username,
-                'PASSWORD': database.database_password,
-                'HOST': 'localhost',
-                'PORT': database.database_port,
-            }
-        }
-
-    elif database.database_type == "postgresql":
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                'NAME': database.database_name,
-                'USER': database.database_username,
-                'PASSWORD': database.database_password,
-                'HOST': 'localhost',
-                'PORT': database.database_port,
-            }
-        }
-
-    elif database.database_type == "mongodb":
-        DATABASES = {
-            'default': {
-                'ENGINE': 'djongo',
-                'NAME': database.database_name,
-                'ENFORCE_SCHEMA': False,
-                'CLIENT': {
-                    'host': f'mongodb+sev://{database.database_username}:{database.database_password}@localhost/'
-                            f'{database.database_name}?retryWrites=true&w=majority'
+        try:
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.mysql',
+                    'NAME': database.database_name,
+                    'USER': database.database_username,
+                    'PASSWORD': database.database_password,
+                    'HOST': 'localhost',
+                    'PORT': database.database_port,
                 }
             }
-        }
+        except:
+            print("Wrong data.")
+
+    elif database.database_type == "postgresql":
+        try:
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                    'NAME': database.database_name,
+                    'USER': database.database_username,
+                    'PASSWORD': database.database_password,
+                    'HOST': 'localhost',
+                    'PORT': database.database_port,
+                }
+            }
+        except:
+            print("Wrong data")
+
+    elif database.database_type == "mongodb":
+        try:
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'djongo',
+                    'NAME': database.database_name,
+                    'ENFORCE_SCHEMA': False,
+                    'CLIENT': {
+                        'host': f'mongodb+sev://{database.database_username}:{database.database_password}@localhost/'
+                                f'{database.database_name}?retryWrites=true&w=majority'
+                    }
+                }
+            }
+        except:
+            print("Wrong data")
 
     elif database.database_type == "sqlite":
         DATABASES = {
@@ -102,7 +111,6 @@ try:
         }
 except ImportError:
     print("Define database.py file")
-    exit(True)
 
 
 AUTH_PASSWORD_VALIDATORS = [
