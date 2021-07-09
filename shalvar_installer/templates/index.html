@@ -55,6 +55,7 @@
                                     <div class="text-center">
                                         <div class="content mt-3">
                                             <div class="alert alert-success" role="alert">از شما ممنونیم که شلوار را انتخاب کردید</div>
+                                            <div class="alert alert-warning" role="alert" v-if="first_step">اگر دیتابیسی برای شما غیر فعال است ابتدا آن را روی سرور خود نصب کنید سپس امتحان کنید</div>
                                                 <div class="col mt-4 pt-2" id="forms">
                                                     <div class="component-wrapper rounded shadow">
                                                         <div class="p-4" v-if="first_step">
@@ -66,19 +67,19 @@
                                                                             <div class="col mt-4 pt-2" id="select-box">
                                                                                 <div class="component-wrapper rounded shadow">
                                                                                     <div class="mb-0">
-                                                                                        <select class="form-select form-control" aria-label="Default select example" v-model="database_type">
+                                                                                        <select class="form-select form-control" aria-label="Default select example" v-model="database_type" id="select_database">
                                                                                             <option selected value="default">انتخاب دیتابیس</option>
-                                                                                            <option value="mysql">msyql ( مای اس کیوال )</option>
-                                                                                            <option value="postgresql">postgresql ( پستگرس ) </option>
-                                                                                            <option value="sqlite">sqlite ( اس کیو لایت )</option>
-                                                                                            <option value="mongodb">mongodb ( مونگو )</option>
+                                                                                            <option value="mysql" id="mysql">msyql ( مای اس کیوال )</option>
+                                                                                            <option value="postgresql" id="postgresql">postgresql ( پستگرس ) </option>
+                                                                                            <option value="sqlite" id="sqlite">sqlite ( اس کیو لایت )</option>
+                                                                                            <option value="mongodb" id="mongodb">mongodb ( مونگو )</option>
                                                                                         </select>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-6" v-if="!is_sqlite_selected">
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="clipboard" class="fea icon-sm icons"></i>
@@ -86,7 +87,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-6" v-if="!is_sqlite_selected">
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="lock" class="fea icon-sm icons"></i>
@@ -94,7 +95,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-6" v-if="!is_sqlite_selected">
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="database" class="fea icon-sm icons"></i>
@@ -102,7 +103,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-6" v-if="!is_sqlite_selected">
                                                                         <div class="mb-3">
                                                                             <div class="form-icon position-relative">
                                                                                 <i data-feather="code" class="fea icon-sm icons"></i>
@@ -116,7 +117,7 @@
                                                             </form>
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <button data-bs-toggle="modal" data-bs-target="#install" class="btn btn-primary" @click="install_shalvar_first_step">نصب شلوار</button>
+                                                                    <button data-bs-toggle="modal" data-bs-target="#install" class="btn btn-primary" @click="install_shalvar_first_step">مرحله بعدی</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -282,6 +283,7 @@
                 database_port: null,
                 errors: [],
                 first_step: true,
+                is_sqlite_selected: false,
             },
             methods: {
                 install_shalvar_first_step: function() {
@@ -299,7 +301,7 @@
                     console.log(csrftoken);
 
                     $.ajax({
-                        url: "/install/api/",
+                        url: "/install/api/first-step/",
                         type: "POST",
                         data: form,
                         processData: false,
@@ -320,7 +322,57 @@
                             console.log(this.errors);
                         }
                     })
+                },
+
+                check_databases: function() {
+                    $.ajax({
+                        url: "/install/api/databases/",
+                        type: "GET",
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+
+                        success: data => {
+                            if (data.result.mysql) {
+                                document.getElementById('mysql').disabled = false;
+                            } else if (!data.result.mysql) {
+                                document.getElementById('mysql').disabled = true;
+                            }
+
+                            if (data.result.postgresql) {
+                                document.getElementById('postgresql').disabled = false;
+                            } else if (!data.result.postgresql) {
+                                document.getElementById('postgresql').disabled = true;
+                            }
+
+                            if (data.result.mongodb) {
+                                document.getElementById('mongodb').disabled = false
+                            } else if (!data.result.mongodb) {
+                                document.getElementById('mongodb').disabled = true;
+                            }
+                        }
+                    })
+                },
+
+                check_sqlite: function() {
+                    setInterval(() => {
+                        if (document.getElementById('sqlite').selected) {
+                            this.is_sqlite_selected = true;
+                        } else {
+                            this.is_sqlite_selected = false;
+                        }
+                    })
+                },
+
+                goStepTwo: function() {
+                    if (document.getElementById('sqlite').selected) {
+                        this.first_step = false;
+                    }
                 }
+            },
+            mounted() {
+                this.check_databases();
+                this.check_sqlite();
             }
         })
     </script>
