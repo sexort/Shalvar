@@ -1,4 +1,5 @@
 from pathlib import Path
+from sys import exit
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,14 +54,57 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Shalvar.wsgi.application'
+try:
+    import database
+    if database.database_type == "mysql":
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': database.database_name,
+                'USER': database.database_username,
+                'PASSWORD': database.database_password,
+                'HOST': 'localhost',
+                'PORT': database.database_port,
+            }
+        }
+
+    elif database.database_type == "postgresql":
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': database.database_name,
+                'USER': database.database_username,
+                'PASSWORD': database.database_password,
+                'HOST': 'localhost',
+                'PORT': database.database_port,
+            }
+        }
+
+    elif database.database_type == "mongodb":
+        DATABASES = {
+            'default': {
+                'ENGINE': 'djongo',
+                'NAME': database.database_name,
+                'ENFORCE_SCHEMA': False,
+                'CLIENT': {
+                    'host': f'mongodb+sev://{database.database_username}:{database.database_password}@localhost/'
+                            f'{database.database_name}?retryWrites=true&w=majority'
+                }
+            }
+        }
+
+    elif database.database_type == "sqlite":
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+except ImportError:
+    print("Define database.py file")
+    exit(True)
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 AUTH_PASSWORD_VALIDATORS = [
