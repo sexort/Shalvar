@@ -42,12 +42,12 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                 if int(database_port) == 0:
                     make_database_config.write(
                         f"database_type = 'mysql'\ndatabase_name = '{database_name}'\ndatabase_username = "
-                        f"{database_username}\ndatabase_password = '{database_password}'"
+                        f"'{database_username}'\ndatabase_password = '{database_password}'"
                     )
                 else:
                     make_database_config.write(
                         f"database_type = 'mysql'\ndatabase_name = '{database_name}'\ndatabase_username = "
-                        f"{database_username}\ndatabase_password = '{database_password}'\ndatabase_port = "
+                        f"'{database_username}'\ndatabase_password = '{database_password}'\ndatabase_port = "
                         f"{database_port}"
                     )
                 make_database_config.close()
@@ -67,17 +67,17 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                 if int(database_port) == 0:
                     make_database_config.write(
                         f"database_type = 'postgresql'\ndatabase_name = '{database_name}'\ndatabase_username = "
-                        f"{database_username}\ndatabase_password = '{database_password}'"
+                        f"'{database_username}'\ndatabase_password = '{database_password}'"
                     )
                 else:
                     make_database_config.write(
                         f"database_type = 'postgresql'\ndatabase_name = '{database_name}'\ndatabase_username = "
-                        f"{database_username}\ndatabase_password = '{database_password}'\ndatabase_port = "
+                        f"'{database_username}'\ndatabase_password = '{database_password}'\ndatabase_port = "
                         f"{database_port}"
                     )
                 make_database_config.close()
 
-            return responses.SuccessResponse.send_response()
+            return responses.SuccessResponse().send_response()
 
         elif database_type == 'mongo':
             if not utilities.mongo_connection(
@@ -92,12 +92,12 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                 if int(database_port) == 0:
                     make_database_config.write(
                         f"database_type = 'mongodb'\ndatabase_name = '{database_name}'\ndatabase_username = "
-                        f"{database_username}\ndatabase_password = '{database_password}'"
+                        f"'{database_username}'\ndatabase_password = '{database_password}'"
                     )
                 else:
                     make_database_config.write(
                         f"database_type = 'mongodb'\ndatabase_name = '{database_name}'\ndatabase_username = "
-                        f"{database_username}\ndatabase_password = '{database_password}'\ndatabase_port = "
+                        f"'{database_username}'\ndatabase_password = '{database_password}'\ndatabase_port = "
                         f"{database_port}"
                     )
                 make_database_config.close()
