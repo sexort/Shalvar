@@ -42,7 +42,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                 if int(database_port) == 0:
                     make_database_config.write(
                         f"database_type = 'mysql'\ndatabase_name = '{database_name}'\ndatabase_username = "
-                        f"'{database_username}'\ndatabase_password = '{database_password}'"
+                        f"'{database_username}'\ndatabase_password = '{database_password}'\ndatabase_port = 3306"
                     )
                 else:
                     make_database_config.write(
