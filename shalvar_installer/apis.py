@@ -67,7 +67,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                 if int(database_port) == 0:
                     make_database_config.write(
                         f"database_type = 'postgresql'\ndatabase_name = '{database_name}'\ndatabase_username = "
-                        f"'{database_username}'\ndatabase_password = '{database_password}'"
+                        f"'{database_username}'\ndatabase_password = '{database_password}'\ndatabase_port = 5432"
                     )
                 else:
                     make_database_config.write(
