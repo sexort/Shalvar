@@ -20,7 +20,7 @@ class ShalvarInstallerFirstStepSerializer(Serializer):
             raise exceptions.ValidationError(_(
                 'invalid database type'
             ))
-        return database_typeb
+        return database_type
 
 
 class ShalvarInstallerSecondStepSerializer(Serializer):
