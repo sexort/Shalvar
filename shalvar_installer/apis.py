@@ -17,7 +17,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
         serialized_data = self.serializer_class(data=self.request.data)
         if not serialized_data.is_valid():
             result = {'errors': serialized_data.errors}
-            return response.BadRequestResponse(result=result).send_response()
+            return responses.BadRequestResponse(result=result).send_response()
 
         database_name = serialized_data.data.get('database_name')
         database_username = serialized_data.data.get('database_username')
@@ -37,7 +37,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                 database_password=database_password,
                 database_port=database_port
             ):
-                return response.BadRequestResponse().send_response()
+                return responses.BadRequestResponse().send_response()
             with open("database.py", mode="w") as make_database_config:
                 if int(database_port) == 0:
                     make_database_config.write(
@@ -52,7 +52,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                     )
                 make_database_config.close()
 
-            return response.SuccessResponse.send_response()
+            return responses.SuccessResponse.send_response()
 
         elif database_type == 'postgresql':
             if not utilities.postgresql_connection(
@@ -61,7 +61,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                     database_password=database_password,
                     database_port=database_port
             ):
-                return response.BadRequestResponse().send_response()
+                return responses.BadRequestResponse().send_response()
 
             with open("database.py", mode="w") as make_database_config:
                 if int(database_port) == 0:
@@ -77,7 +77,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                     )
                 make_database_config.close()
 
-            return response.SuccessResponse.send_response()
+            return responses.SuccessResponse.send_response()
 
         elif database_type == 'mongo':
             if not utilities.mongo_connection(
@@ -86,7 +86,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                     database_password=database_password,
                     database_port=database_port
             ):
-                return response.BadRequestResponse().send_response()
+                return responses.BadRequestResponse().send_response()
 
             with open("database.py", mode="w") as make_database_config:
                 if int(database_port) == 0:
@@ -102,7 +102,7 @@ class ShalvarInstallerFirstStepAPI(generics.CreateAPIView):
                     )
                 make_database_config.close()
 
-            return response.SuccessResponse.send_response()
+            return responses.SuccessResponse.send_response()
 
 
 class ShalvarInstallerSecondStepAPI(generics.CreateAPIView):
